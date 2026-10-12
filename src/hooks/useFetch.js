@@ -1,0 +1,31 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
+// Runs an async loader on mount / when deps change, with stale-response protection.
+// loader receives an AbortSignal. Returns { data, loading, error, reload, setData }.
+export default function useFetch(loader, deps = []) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [tick, setTick] = useState(0);
+    const loaderRef = useRef(loader);
+    loaderRef.current = loader;
+
+    useEffect(() => {
+        const controller = new AbortController();
+        let active = true;
+        setLoading(true);
+        setError("");
+        Promise.resolve(loaderRef.current(controller.signal))
+            .then((res) => { if (active) setData(res); })
+            .catch((err) => {
+                if (!active || err?.original?.code === "ERR_CANCELED") return;
+                setError(err.message || "Something went wrong.");
+            })
+            .finally(() => { if (active) setLoading(false); });
+        return () => { active = false; controller.abort(); };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [...deps, tick]);
+
+    const reload = useCallback(() => setTick((t) => t + 1), []);
+    return { data, loading, error, reload, setData };
+}

@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+/* EcoBazaar — white & green theme.
+   Token names: forest = deep green (text / primary), leaf = bright green accent,
+   snow = page white, mint = soft green tint, slate = muted green-grey text. */
+@theme {
+  --color-forest: #0f3d24;
+  --color-leaf: #16a34a;
+  --color-leaf-dark: #15803d;
+  --color-leaf-soft: #86efac;
+  --color-snow: #ffffff;
+  --color-mint: #f0faf3;
+  --color-slate: #5b6b61;
+  --font-display: "Fraunces", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-snow text-forest font-sans antialiased; }
+  :focus-visible { outline: 2px solid var(--color-leaf); outline-offset: 2px; }
+  button:not(:disabled), a, [role="button"] { cursor: pointer; }
+}
+
+/* Reusable hover affordances */
+@layer components {
+  .card-hover {
+    transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px -10px rgb(22 163 74 / 0.35);
+    border-color: rgb(22 163 74 / 0.45);
+  }
+}
