@@ -11,7 +11,6 @@ const MAX_BYTES = 5 * 1024 * 1024;
 
 const selectCls = "w-full py-2.5 px-3 rounded-lg border border-forest/15 bg-white text-sm hover:border-leaf/50 focus:outline-none focus:ring-4 focus:ring-leaf/15 focus:border-leaf transition-all";
 
-// Fields = exactly the backend product schema. onSubmit(formData, onProgress) must return a promise.
 export default function ProductForm({ initialData, onSubmit, submitLabel = "Save Product", categorySource = [] }) {
   const categories = useMemo(() => buildCategories(categorySource), [categorySource]);
 
@@ -31,13 +30,16 @@ export default function ProductForm({ initialData, onSubmit, submitLabel = "Save
   const [existing, setExisting] = useState(initialData?.images || []);
   const [removed, setRemoved] = useState([]); // rawUrl list
   const [added, setAdded] = useState([]); // [{ file, preview }]
+  const [mainKey, setMainKey] = useState(initialData?.images?.find((i) => i.isMain)?.rawUrl || initialData?.images?.[0]?.rawUrl || "");
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState("");
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // free object URLs
   useEffect(() => () => added.forEach((a) => URL.revokeObjectURL(a.preview)), []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const allKeys = [...existing.map((i) => i.rawUrl), ...added.map((a) => a.preview)];
+  const effectiveMain = allKeys.includes(mainKey) ? mainKey : allKeys[0] || "";
 
   const subOptions = categories.find((c) => c.name === form.category)?.subcategories || [];
 
@@ -80,7 +82,9 @@ export default function ProductForm({ initialData, onSubmit, submitLabel = "Save
       else if (v !== "" && v !== null && v !== undefined) fd.append(k, typeof v === "string" ? v.trim() : v);
     });
     removed.forEach((u) => fd.append("removeImages", u));
-    // repeated field name "photos" (backend: upload.array('photos', 5)). Content-Type is left to the browser.
+    const addedIndex = added.findIndex((a) => a.preview === effectiveMain);
+    if (addedIndex >= 0) fd.append("mainImage", `new:${addedIndex}`);
+    else if (effectiveMain) fd.append("mainImage", effectiveMain);
     added.forEach((a) => fd.append("photos", a.file));
 
     setSaving(true);
@@ -121,6 +125,8 @@ export default function ProductForm({ initialData, onSubmit, submitLabel = "Save
           <ImageUploader
             existing={existing}
             added={added}
+            mainKey={effectiveMain}
+            onSetMain={setMainKey}
             error={errors.images}
             onAddFiles={addFiles}
             onRemoveExisting={(img) => { setExisting((x) => x.filter((i) => i.rawUrl !== img.rawUrl)); setRemoved((r) => [...r, img.rawUrl]); }}

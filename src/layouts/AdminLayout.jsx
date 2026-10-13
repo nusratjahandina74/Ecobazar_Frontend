@@ -5,8 +5,6 @@ import {
 } from "../components/common/Icons";
 import { useAuth } from "../context/AuthContext";
 import { ROLES } from "../utils/constants";
-
-// roles: who sees the link (server enforces the same rules)
 const navItems = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
     { to: "/admin/products", label: "Products", icon: Package },

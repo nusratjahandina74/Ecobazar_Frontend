@@ -2,16 +2,22 @@ import { Link } from "react-router";
 import { ShieldCheck } from "../common/Icons";
 import { formatBDT } from "../../utils/adapters";
 
-export default function CartSummary({ subtotal, itemCount, disabled }) {
+export default function CartSummary({ items = [], subtotal, itemCount, disabled }) {
     return (
         <div className="sticky p-5 bg-white border rounded-xl border-forest/10 top-24">
             <h3 className="mb-4 text-lg font-semibold font-display text-forest">Order Summary</h3>
 
-            <div className="flex flex-col gap-2.5 text-sm">
-                <div className="flex justify-between text-slate">
-                    <span>Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"})</span>
-                    <span className="font-medium text-forest">{formatBDT(subtotal)}</span>
-                </div>
+            <ul className="flex flex-col gap-2 text-sm pb-3 mb-3 border-b border-forest/10 max-h-56 overflow-y-auto pr-1">
+                {items.map((i) => (
+                    <li key={i.cartId} className="flex justify-between gap-3 text-slate">
+                        <span className="line-clamp-1">{i.title} <span className="text-slate/60">× {i.quantity}</span></span>
+                        <span className="font-medium text-forest shrink-0">{formatBDT(i.price * i.quantity)}</span>
+                    </li>
+                ))}
+            </ul>
+            <div className="flex justify-between text-sm text-slate">
+                <span>Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"}, {items.length} {items.length === 1 ? "product" : "products"})</span>
+                <span className="font-medium text-forest">{formatBDT(subtotal)}</span>
             </div>
 
             <div className="flex items-center justify-between pt-4 mt-4 border-t border-forest/10">

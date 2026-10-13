@@ -7,8 +7,6 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    // "booting" is true while a saved token is being validated against GET /me.
-    // A stored token is never trusted on its own: the user (and role) always come from the server.
     const [booting, setBooting] = useState(() => !!tokenStorage.get());
 
     const logout = useCallback(() => {
@@ -41,8 +39,6 @@ export function AuthProvider({ children }) {
         setUser(u);
         return u;
     }, []);
-
-    // The backend sends a verification e-mail and does not start a session on registration.
     const register = useCallback((payload) => registerApi(payload), []);
 
     const refreshUser = useCallback(async () => {

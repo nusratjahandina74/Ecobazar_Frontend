@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { fetchCart, addToCartApi, changeQuantityApi, removeCartItemApi } from "../api/cartApi";
 import { useAuth } from "./AuthContext";
 import { ApiError } from "../api/axiosInstance";
@@ -26,7 +26,6 @@ export function CartProvider({ children }) {
         setServerTotal(totalPrice);
     }, [userId]);
 
-    // load the cart whenever the signed-in user changes (and clear it on logout)
     useEffect(() => {
         let cancelled = false;
         if (!userId) {
@@ -51,7 +50,61 @@ export function CartProvider({ children }) {
     const setPending = (id, on) =>
         setPendingIds((prev) => (on ? [...prev, id] : prev.filter((x) => x !== id)));
 
-    // Runs a mutation, then re-reads the cart so the server stays the source of truth.
+    const itemsRef = useRef(items);
+    useEffect(() => { itemsRef.current = items; }, [items]);
+    const queues = useRef(new Map());
+    const inflight = useRef(0);
+    const dirty = useRef(false);
+
+    const syncQuietly = useCallback(async () => {
+        try { await reload(); } catch { /* keep the optimistic state if the refresh itself fails */ }
+    }, [reload]);
+
+    const enqueue = useCallback((cartId, task) => {
+        inflight.current += 1;
+        const prev = queues.current.get(cartId) || Promise.resolve();
+        const next = prev
+            .catch(() => { })
+            .then(task)
+            .catch((err) => { dirty.current = true; throw err; })
+            .finally(() => {
+                inflight.current -= 1;
+                if (queues.current.get(cartId) === next) queues.current.delete(cartId);
+                if (inflight.current === 0) { dirty.current = false; syncQuietly(); }
+            });
+        queues.current.set(cartId, next);
+        return next;
+    }, [syncQuietly]);
+
+    const patchItem = (cartId, fn) =>
+        setItems((prev) => prev.flatMap((i) => (i.cartId !== cartId ? [i] : fn(i) ? [fn(i)] : [])));
+
+    const incrementQuantity = useCallback((cartId) => {
+        const item = itemsRef.current.find((i) => i.cartId === cartId);
+        if (!item) return Promise.resolve();
+        if (item.quantity >= item.stock) {
+            return Promise.reject(new ApiError(`Only ${item.stock} in stock.`, { status: 400 }));
+        }
+        patchItem(cartId, (i) => ({ ...i, quantity: i.quantity + 1 }));
+        return enqueue(cartId, () => changeQuantityApi(userId, cartId, "plus"))
+            .catch((err) => { setError(err.message); throw err; });
+    }, [enqueue, userId]);
+
+    const decrementQuantity = useCallback((cartId) => {
+        const item = itemsRef.current.find((i) => i.cartId === cartId);
+        if (!item || item.quantity <= 1) return Promise.resolve();
+        patchItem(cartId, (i) => ({ ...i, quantity: i.quantity - 1 }));
+        return enqueue(cartId, () => changeQuantityApi(userId, cartId, "minus"))
+            .catch((err) => { setError(err.message); throw err; });
+    }, [enqueue, userId]);
+
+    const removeFromCart = useCallback((cartId) => {
+        if (!itemsRef.current.some((i) => i.cartId === cartId)) return Promise.resolve();
+        patchItem(cartId, () => null);
+        return enqueue(cartId, () => removeCartItemApi(cartId))
+            .catch((err) => { setError(err.message); throw err; });
+    }, [enqueue]);
+
     const mutate = useCallback(async (pendingKey, fn) => {
         if (!userId) throw new ApiError("Please sign in to use your cart.", { status: 401 });
         setPending(pendingKey, true);
@@ -67,26 +120,12 @@ export function CartProvider({ children }) {
         }
     }, [userId, reload]);
 
-    // The backend adds one unit per call, so a quantity > 1 issues sequential calls.
     const addToCart = useCallback(
         (product, quantity = 1) =>
             mutate(product._id, async () => {
                 for (let i = 0; i < quantity; i += 1) await addToCartApi(userId, product._id);
             }),
         [mutate, userId]
-    );
-
-    const incrementQuantity = useCallback(
-        (cartId) => mutate(cartId, () => changeQuantityApi(userId, cartId, "plus")),
-        [mutate, userId]
-    );
-    const decrementQuantity = useCallback(
-        (cartId) => mutate(cartId, () => changeQuantityApi(userId, cartId, "minus")),
-        [mutate, userId]
-    );
-    const removeFromCart = useCallback(
-        (cartId) => mutate(cartId, () => removeCartItemApi(cartId)),
-        [mutate]
     );
 
     const isPending = useCallback((id) => pendingIds.includes(id), [pendingIds]);

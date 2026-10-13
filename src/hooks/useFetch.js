@@ -1,7 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-
-// Runs an async loader on mount / when deps change, with stale-response protection.
-// loader receives an AbortSignal. Returns { data, loading, error, reload, setData }.
 export default function useFetch(loader, deps = []) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -23,7 +20,6 @@ export default function useFetch(loader, deps = []) {
             })
             .finally(() => { if (active) setLoading(false); });
         return () => { active = false; controller.abort(); };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [...deps, tick]);
 
     const reload = useCallback(() => setTick((t) => t + 1), []);

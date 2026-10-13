@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router";
 import router from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
+import { WishlistProvider } from "./context/WishlistContext";
 import { CartProvider } from "./context/CartContext";
 import { CatalogProvider } from "./context/CatalogContext";
 import { ToastProvider } from "./context/ToastContext";
@@ -13,7 +14,9 @@ export default function App() {
                 <AuthProvider>
                     <CatalogProvider>
                         <CartProvider>
-                            <RouterProvider router={router} />
+                            <WishlistProvider>
+                                <RouterProvider router={router} />
+                            </WishlistProvider>
                         </CartProvider>
                     </CatalogProvider>
                 </AuthProvider>

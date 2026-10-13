@@ -3,6 +3,7 @@ import { ShoppingCart, Package } from "../common/Icons";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
+import WishlistButton from "./WishlistButton";
 import { formatBDT } from "../../utils/adapters";
 
 export function ProductImage({ src, alt, className = "" }) {
@@ -23,8 +24,6 @@ export function ProductImage({ src, alt, className = "" }) {
         />
     );
 }
-
-// Shared add-to-cart behaviour: sends guests to /login, reports errors with a toast.
 export function useAddToCart() {
     const { addToCart, isPending } = useCart();
     const { isAuthenticated } = useAuth();
@@ -75,6 +74,10 @@ export default function ProductCard({ product }) {
                     )}
                 </div>
             </Link>
+
+            <div className="absolute top-3 right-3 z-10">
+                <WishlistButton product={product} />
+            </div>
 
             <div className="p-4">
                 <p className="text-xs text-leaf font-medium uppercase tracking-wide">{product.category}</p>

@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { ShoppingCart } from "../common/Icons";
 import { ProductImage, useAddToCart } from "./ProductCard";
+import WishlistButton from "./WishlistButton";
 import { formatBDT } from "../../utils/adapters";
 
 
@@ -30,6 +31,10 @@ export default function OfferProductCard({ product }) {
                     )}
                 </div>
             </Link>
+
+            <div className="absolute top-3 right-3 z-10">
+                <WishlistButton product={product} />
+            </div>
 
             <div className="p-3.5">
                 <Link to={`/products/${product._id}`}>

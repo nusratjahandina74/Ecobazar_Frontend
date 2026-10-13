@@ -7,14 +7,13 @@ import { useToast } from "../../context/ToastContext";
 import { formatBDT } from "../../utils/adapters";
 
 export default function CartItem({ item }) {
-    const { incrementQuantity, decrementQuantity, removeFromCart, isPending } = useCart();
+    const { incrementQuantity, decrementQuantity, removeFromCart } = useCart();
     const toast = useToast();
-    const pending = isPending(item.cartId);
 
     const run = (fn) => fn(item.cartId).catch((err) => toast.error(err.message));
 
     return (
-        <div className={`flex gap-4 py-5 border-b border-forest/10 last:border-0 transition-opacity ${pending ? "opacity-60" : ""}`}>
+        <div className={`flex gap-4 py-5 border-b border-forest/10 last:border-0 `}>
             <Link to={`/products/${item.productId}`} className="w-20 h-20 overflow-hidden rounded-lg sm:w-24 sm:h-24 bg-mint shrink-0">
                 <ProductImage src={item.image} alt={item.title} className="object-cover w-full h-full" />
             </Link>
@@ -26,8 +25,7 @@ export default function CartItem({ item }) {
                     </Link>
                     <button
                         onClick={() => run(removeFromCart)}
-                        disabled={pending}
-                        className="transition-colors text-slate/60 hover:text-red-500 shrink-0 disabled:opacity-30"
+                        className="transition-colors text-slate/60 hover:text-red-500 shrink-0"
                         aria-label={`Remove ${item.title} from cart`}
                     >
                         <Trash2 size={16} />
@@ -40,7 +38,6 @@ export default function CartItem({ item }) {
                     <QuantitySelector
                         value={item.quantity}
                         max={item.stock}
-                        disabled={pending}
                         onIncrement={() => run(incrementQuantity)}
                         onDecrement={() => run(decrementQuantity)}
                     />

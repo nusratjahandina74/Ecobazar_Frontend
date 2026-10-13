@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* EcoBazaar — white & green theme.
-   Token names: forest = deep green (text / primary), leaf = bright green accent,
-   snow = page white, mint = soft green tint, slate = muted green-grey text. */
 @theme {
   --color-forest: #0f3d24;
   --color-leaf: #16a34a;

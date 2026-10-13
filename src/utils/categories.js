@@ -65,9 +65,6 @@ export const categories = [
         subcategories: ["Pet Food", "Toys", "Grooming", "Accessories"],
     },
 ];
-// The backend stores `category` / `subCategory` as free text and has no category endpoint, so the
-// list above is the storefront's category taxonomy (also used by the admin product form).
-// buildCategories() merges in any extra categories / sub-categories found on real products.
 export function buildCategories(products = []) {
     const map = new Map(categories.map((c) => [c.name.toLowerCase(), { ...c, subcategories: [...c.subcategories] }]));
     products.forEach((p) => {

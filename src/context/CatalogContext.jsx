@@ -3,9 +3,6 @@ import { getProducts } from "../api/productApi";
 import { buildCategories } from "../utils/categories";
 
 const CatalogContext = createContext(null);
-
-// Loads the product list once (GET /allproduct) and shares it with the storefront.
-// The backend has no search/filter parameters, so filtering happens on this array.
 export function CatalogProvider({ children }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);

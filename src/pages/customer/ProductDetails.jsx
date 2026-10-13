@@ -7,6 +7,7 @@ import { PageLoader } from "../../components/common/Loader";
 import { ErrorState } from "../../components/common/StateViews";
 import useFetch from "../../hooks/useFetch";
 import { getProduct } from "../../api/productApi";
+import WishlistButton from "../../components/product/WishlistButton";
 import { formatBDT } from "../../utils/adapters";
 
 export default function ProductDetails() {
@@ -109,6 +110,7 @@ export default function ProductDetails() {
                         >
                             <ShoppingCart size={17} /> {pending ? "Adding…" : outOfStock ? "Out of Stock" : "Add to Cart"}
                         </button>
+                        <WishlistButton product={product} variant="button" className="w-full mt-3" />
                     </div>
 
                     <div className="grid grid-cols-3 gap-3 mt-6">

@@ -13,6 +13,7 @@ import { ANY_ACCOUNT, ADMIN_PANEL_ROLES, ADMIN_ONLY } from "../utils/constants";
 import Home from "../pages/customer/Home";
 import ProductListing from "../pages/customer/ProductListing";
 import ProductDetails from "../pages/customer/ProductDetails";
+import Wishlist from "../pages/customer/Wishlist";
 import Cart from "../pages/customer/Cart";
 import Checkout from "../pages/customer/Checkout";
 import OrderSuccess from "../pages/customer/OrderSuccess";
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
             { index: true, element: <Home /> },
             { path: "products", element: <ProductListing /> },
             { path: "products/:id", element: <ProductDetails /> },
+            { path: "wishlist", element: <ProtectedRoute allowedRoles={ANY_ACCOUNT}><Wishlist /></ProtectedRoute> },
             // Cart needs a signed-in user (the backend cart belongs to a real user id)
             { path: "cart", element: <ProtectedRoute allowedRoles={ANY_ACCOUNT}><Cart /></ProtectedRoute> },
             { path: "checkout", element: <ProtectedRoute allowedRoles={ANY_ACCOUNT}><Checkout /></ProtectedRoute> },

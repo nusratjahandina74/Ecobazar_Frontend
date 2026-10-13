@@ -21,7 +21,6 @@ function Stat({ label, value, icon: Icon, hint }) {
     );
 }
 
-// Every number comes from the API; a failed request shows "—" instead of an invented value.
 export default function Dashboard() {
     const { user } = useAuth();
     const isAdmin = user.role === ROLES.ADMIN;

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate, useLocation, useSearchParams } from "react-router";
-import { ShoppingCart, User, Menu, X, Search, ChevronDown, LogOut, LayoutDashboard } from "./Icons";
+import { ShoppingCart, User, Menu, X, Search, ChevronDown, LogOut, LayoutDashboard, Heart } from "./Icons";
 import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 import { useAuth } from "../../context/AuthContext";
 import { useCatalog } from "../../context/CatalogContext";
 import { ADMIN_PANEL_ROLES } from "../../utils/constants";
@@ -15,6 +16,7 @@ export default function Navbar() {
     const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const { totalItems } = useCart();
+    const { count: wishCount } = useWishlist();
     const { user, isAuthenticated, logout } = useAuth();
     const { categories } = useCatalog();
 
@@ -109,6 +111,14 @@ export default function Navbar() {
                                 <User size={19} /> Sign in
                             </Link>
                         )}
+                        <Link to="/wishlist" className="relative text-forest/70 hover:text-leaf transition-colors" aria-label={`Wishlist, ${wishCount} items`}>
+                            <Heart size={20} />
+                            {wishCount > 0 && (
+                                <span className="absolute -top-2 -right-2 bg-leaf text-white text-[10px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">
+                                    {wishCount}
+                                </span>
+                            )}
+                        </Link>
                         <Link to="/cart" className="relative text-forest/70 hover:text-leaf transition-colors" aria-label={`Cart, ${totalItems} items`}>
                             <ShoppingCart size={20} />
                             {totalItems > 0 && (
@@ -243,6 +253,9 @@ export default function Navbar() {
                         })}
 
                         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 pt-4 mt-2 border-t border-forest/10">
+                            <Link to="/wishlist" onClick={() => setOpen(false)} className={iconLink}>
+                                <Heart size={18} /> Wishlist{wishCount > 0 && ` (${wishCount})`}
+                            </Link>
                             <Link to="/cart" onClick={() => setOpen(false)} className={iconLink}>
                                 <ShoppingCart size={18} /> Cart{totalItems > 0 && ` (${totalItems})`}
                             </Link>

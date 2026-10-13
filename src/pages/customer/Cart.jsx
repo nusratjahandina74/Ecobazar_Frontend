@@ -37,7 +37,7 @@ export default function Cart() {
                             {items.map((item) => <CartItem key={item.cartId} item={item} />)}
                         </div>
                     </div>
-                    <CartSummary subtotal={subtotal} itemCount={totalItems} disabled={hasProblem} />
+                    <CartSummary items={items} subtotal={subtotal} itemCount={totalItems} disabled={hasProblem} />
                 </div>
             )}
         </div>
