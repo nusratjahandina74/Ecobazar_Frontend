@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { Check, Package, AlertCircle, Loader2 } from "../../components/common/Icons";
 import { getOrderByTransaction } from "../../api/orderApi";
 import { getErrorMessage } from "../../api/axiosInstance";
@@ -7,6 +7,7 @@ import { useCart } from "../../context/CartContext";
 import { formatBDT } from "../../utils/adapters";
 
 const MAX_POLLS = 6;
+const REDIRECT_SECONDS = 10;
 
 // Shows the status stored by the backend (set only by the verified gateway callback / IPN) —
 // reaching this URL alone does NOT mean the payment succeeded.
@@ -17,6 +18,8 @@ export default function OrderSuccess() {
     const [order, setOrder] = useState(null);
     const [error, setError] = useState("");
     const polls = useRef(0);
+    const navigate = useNavigate();
+    const [left, setLeft] = useState(REDIRECT_SECONDS);
 
     useEffect(() => {
         if (!txnId) return;
@@ -51,6 +54,15 @@ export default function OrderSuccess() {
     else if (order?.paymentStatus === "Pending") view = "pending";
     else if (order) view = "notpaid";
     else view = "checking";
+
+    // After a confirmed order, send the customer back to the shop so they can keep browsing products.
+    const confirmed = view === "paid" || view === "cod";
+    useEffect(() => {
+        if (!confirmed) return;
+        if (left <= 0) { navigate("/", { replace: true }); return; }
+        const t = setTimeout(() => setLeft((n) => n - 1), 1000);
+        return () => clearTimeout(t);
+    }, [confirmed, left, navigate]);
 
     return (
         <div className="max-w-lg mx-auto px-4 py-24 text-center">
@@ -134,14 +146,17 @@ export default function OrderSuccess() {
             )}
 
             {view !== "checking" && (
-                <div className="flex flex-col sm:flex-row gap-3 mt-8">
-                    <Link to="/my-orders" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold transition-colors">
-                        My Orders
-                    </Link>
-                    <Link to="/products" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold transition-colors">
-                        Continue Shopping
-                    </Link>
-                </div>
+                <>
+                    {confirmed && <p className="text-xs text-slate mt-6">Taking you back to the home page in {left}s...</p>}
+                    <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                        <Link to="/" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold transition-colors">
+                            Back to Home
+                        </Link>
+                        <Link to="/my-orders" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold transition-colors">
+                            My Orders
+                        </Link>
+                    </div>
+                </>
             )}
         </div>
     );

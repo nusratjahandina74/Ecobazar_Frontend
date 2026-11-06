@@ -22,10 +22,22 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         if (!tokenStorage.get()) return;
         let cancelled = false;
-        getMeApi()
-            .then((u) => { if (!cancelled) setUser(normalizeUser(u)); })
-            .catch(() => { if (!cancelled) tokenStorage.clear(); }) // invalid/expired -> signed out
-            .finally(() => { if (!cancelled) setBooting(false); });
+        const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+        // Only a real 401/403 means "signed out". A slow / waking-up server (Render free tier), a 5xx or a
+        // network blip must NOT delete the token - that was logging people out right after payment.
+        (async () => {
+            for (let attempt = 0; attempt < 4 && !cancelled; attempt += 1) {
+                try {
+                    const u = await getMeApi();
+                    if (!cancelled) setUser(normalizeUser(u));
+                    break;
+                } catch (err) {
+                    if (err.status === 401 || err.status === 403) { tokenStorage.clear(); break; }
+                    if (attempt < 3) await sleep(2000 * (attempt + 1));
+                }
+            }
+            if (!cancelled) setBooting(false);
+        })();
         return () => { cancelled = true; };
     }, []);
 
