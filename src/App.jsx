@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { LeafLoader } from "./components/common/Loader";
 import { RouterProvider } from "react-router";
 import router from "./routes/AppRoutes";
 import { AuthProvider } from "./context/AuthContext";
@@ -18,7 +19,7 @@ export default function App() {
                     <CatalogProvider>
                         <CartProvider>
                             <WishlistProvider>
-                                <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-sm text-gray-500" role="status">Loading...</div>}>
+                                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LeafLoader size={72} label="Loading" /></div>}>
                                     <RouterProvider router={router} />
                                 </Suspense>
                             </WishlistProvider>

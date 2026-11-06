@@ -26,17 +26,25 @@ export function CartSkeleton() {
     );
 }
 
+/* Brand loader: a leaf that draws itself inside an orbiting ring, with bouncing dots. */
+export function LeafLoader({ size = 56, label = "", className = "" }) {
+  return (
+    <div role="status" aria-label={label || "Loading"} className={`flex flex-col items-center justify-center gap-3 text-leaf ${className}`}>
+      <svg width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle className="leaf-orbit" cx="24" cy="24" r="21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeDasharray="28 104" />
+        <path className="leaf-draw" d="M14 33C13 21 21 13 34 12C35 25 28 34 14 33Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <path className="leaf-draw" d="M14 33L27 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+      <span className="flex items-center gap-1.5" aria-hidden="true"><i className="leaf-dot" /><i className="leaf-dot" /><i className="leaf-dot" /></span>
+      {label && <p className="text-sm text-slate">{label}</p>}
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+}
+
 /* Generic loader for lists / sections. */
 export function PageLoader() {
-    return (
-        <div role="status" className="min-h-[60vh] flex flex-col items-center justify-center gap-4 fade-up">
-            <div className="relative w-12 h-12">
-                <span className="absolute inset-0 border-4 rounded-full border-leaf/15" />
-                <span className="absolute inset-0 border-4 border-transparent rounded-full border-t-leaf animate-spin" />
-            </div>
-            <p className="text-sm text-slate">Loading...</p>
-        </div>
-    );
+    return <div className="min-h-[60vh] flex items-center justify-center fade-up"><LeafLoader size={64} label="Loading" /></div>;
 }
 
 export function InlineLoader({ size = 16, className = "" }) {
