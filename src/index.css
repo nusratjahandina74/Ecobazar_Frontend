@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0f3d24;
+  --color-leaf: #16a34a;
+  --color-leaf-dark: #15803d;
+  --color-leaf-soft: #86efac;
+  --color-snow: #ffffff;
+  --color-mint: #f0faf3;
+  --color-slate: #5b6b61;
+  --font-display: "Inter", sans-serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-snow text-forest font-sans antialiased; }
+  :focus-visible { outline: 2px solid var(--color-leaf); outline-offset: 2px; }
+  button:not(:disabled), a, [role="button"] { cursor: pointer; }
+}
+
+/* Loading skeletons */
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+.skeleton { position: relative; overflow: hidden; background: #e8eeea; }
+.skeleton::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent); animation: shimmer 1.4s ease-in-out infinite; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fade-up { animation: fade-up .25s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .skeleton::after { animation: none; } }
+
+/* Rich-text (HTML written in the dashboard editor) */
+.rich p { margin: 0 0 .75rem; }
+.rich h1, .rich h2, .rich h3, .rich h4 { color: var(--color-forest); font-weight: 600; margin: 1rem 0 .5rem; }
+.rich h2 { font-size: 1.25rem; } .rich h3 { font-size: 1.1rem; }
+.rich ul { list-style: disc; padding-left: 1.25rem; margin: 0 0 .75rem; }
+.rich ol { list-style: decimal; padding-left: 1.25rem; margin: 0 0 .75rem; }
+.rich a { color: var(--color-leaf-dark); text-decoration: underline; }
+.rich blockquote { border-left: 3px solid var(--color-leaf-soft); padding-left: .75rem; margin: .75rem 0; font-style: italic; }
+.rich img { max-width: 100%; height: auto; border-radius: .5rem; }
+.rich table { border-collapse: collapse; width: 100%; } .rich td, .rich th { border: 1px solid rgb(15 61 36 / .15); padding: .35rem .5rem; }
