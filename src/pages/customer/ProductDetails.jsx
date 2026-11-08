@@ -61,8 +61,8 @@ export default function ProductDetails() {
     const canBuy = !(outOfStock || pending || needsChoice || soldOutChoice);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-28 lg:pb-10">
-            <nav className="text-sm text-slate mb-6 flex flex-wrap items-center gap-x-2" aria-label="Breadcrumb">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-28 lg:pb-10">
+            <nav className="text-sm text-slate mb-4 sm:mb-6 flex flex-wrap items-center gap-x-2" aria-label="Breadcrumb">
                 <Link to="/" className="">Home</Link>
                 <span>/</span>
                 <Link to="/products" className="">Products</Link>
@@ -73,21 +73,21 @@ export default function ProductDetails() {
                     </>
                 )}
                 <span>/</span>
-                <span className="text-forest">{product.title}</span>
+                <span className="text-forest min-w-0 max-w-full [overflow-wrap:anywhere]">{product.title}</span>
             </nav>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
                 <ProductImageGallery images={product.images} title={product.title} />
 
-                <div>
+                <div className="min-w-0">
                     <p className="text-xs text-leaf font-medium uppercase tracking-wide">
                         {product.category}{product.subCategory && <span className="text-slate/60"> · {product.subCategory}</span>}
                     </p>
-                    <h1 className="font-display text-3xl font-semibold text-forest mt-2">{product.title}</h1>
+                    <h1 className="font-display text-2xl sm:text-3xl font-semibold text-forest mt-2 [overflow-wrap:anywhere]">{product.title}</h1>
 
                     {product.ratingCount > 0 && <a href="#reviews" className="inline-block mt-2"><RatingBadge value={product.ratingAvg} count={product.ratingCount} size={16} /></a>}
 
-                    <div className="flex items-center gap-3 mt-4">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-4">
                         <span className="font-display text-3xl font-semibold text-forest">{formatBDT(salePrice)}</span>
                         {hasDiscount && (
                             <>
@@ -129,7 +129,7 @@ export default function ProductDetails() {
                         </fieldset>
                     )}
 
-                    <div className="mt-8 p-5 rounded-xl border border-forest/10 bg-white">
+                    <div className="mt-6 sm:mt-8 p-4 sm:p-5 rounded-xl border border-forest/10 bg-white">
                         <div className="flex items-center justify-between mb-5">
                             <span className="text-sm font-medium text-forest">Quantity</span>
                             <div className="flex items-center border border-forest/15 rounded-lg w-fit">
@@ -220,9 +220,9 @@ export default function ProductDetails() {
             <ReviewsSection productId={product._id} />
             <RecentlyViewed excludeId={product._id} />
 
-            <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-forest/10 px-4 py-3 flex items-center gap-3">
+            <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-forest/10 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center gap-3">
                 <div className="min-w-0 flex-1"><p className="text-xs text-slate truncate">{product.title}</p><p className="font-display text-lg font-semibold text-forest leading-tight">{formatBDT(salePrice)}</p></div>
-                <button type="button" disabled={!canBuy} onClick={() => add(product, qty, variantId)} className="shrink-0 px-5 py-3 rounded-lg bg-leaf text-white text-sm font-semibold disabled:opacity-50">
+                <button type="button" disabled={!canBuy} onClick={() => add(product, qty, variantId)} className="shrink-0 whitespace-nowrap px-5 py-3 rounded-lg bg-leaf text-white text-sm font-semibold disabled:opacity-50">
                     {outOfStock || soldOutChoice ? "Out of stock" : needsChoice ? "Choose option" : pending ? "Adding…" : "Add to cart"}
                 </button>
             </div>

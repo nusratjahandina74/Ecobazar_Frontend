@@ -15,8 +15,8 @@ export default function Cart() {
     const hasProblem = items.some((i) => !i.available || i.quantity > i.stock);
 
     return (
-        <div className="px-4 pt-8 pb-28 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:pt-10 lg:pb-12">
-            <h1 className="mb-6 text-3xl font-semibold font-display text-forest">Shopping Cart</h1>
+        <div className="px-4 pt-6 sm:pt-8 pb-28 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:pt-10 lg:pb-12">
+            <h1 className="mb-5 sm:mb-6 text-2xl sm:text-3xl font-semibold font-display text-forest">Shopping Cart</h1>
 
             {error && items.length === 0 ? (
                 <ErrorState message={error} onRetry={reload} />
@@ -31,10 +31,10 @@ export default function Cart() {
                     }
                 />
             ) : (
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 gap-6 lg:gap-8 lg:grid-cols-3">
+                    <div className="lg:col-span-2 min-w-0">
                         {error && <p role="alert" className="mb-3 px-3 py-2 text-sm text-red-600 bg-red-50 rounded-lg">{error}</p>}
-                        <div className="px-5 bg-white border rounded-xl border-forest/10">
+                        <div className="px-4 sm:px-5 bg-white border rounded-xl border-forest/10">
                             {items.map((item) => <CartItem key={item.cartId} item={item} />)}
                         </div>
                     </div>
@@ -43,7 +43,7 @@ export default function Cart() {
             )}
 
             {items.length > 0 && (
-                <div className="fixed inset-x-0 bottom-0 z-40 px-4 py-3 bg-white border-t shadow-[0_-4px_16px_rgba(15,61,36,.08)] lg:hidden border-forest/10">
+                <div className="fixed inset-x-0 bottom-0 z-40 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white border-t shadow-[0_-4px_16px_rgba(15,61,36,.08)] lg:hidden border-forest/10">
                     <div className="flex items-center gap-3 mx-auto max-w-7xl">
                         <div className="shrink-0">
                             <p className="text-xs text-slate">Subtotal</p>

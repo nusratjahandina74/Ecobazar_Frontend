@@ -65,7 +65,7 @@ export default function OrderSuccess() {
     }, [confirmed, left, navigate]);
 
     return (
-        <div className="max-w-lg mx-auto px-4 py-24 text-center">
+        <div className="max-w-lg mx-auto px-4 py-12 sm:py-24 text-center">
             {view === "checking" && (
                 <>
                     <Loader2 size={32} className="animate-spin text-leaf mx-auto" />
@@ -149,10 +149,10 @@ export default function OrderSuccess() {
                 <>
                     {confirmed && <p className="text-xs text-slate mt-6">Taking you back to the home page in {left}s...</p>}
                     <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                        <Link to="/" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold transition-colors">
+                        <Link to="/" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold text-center transition-colors">
                             Back to Home
                         </Link>
-                        <Link to="/my-orders" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold transition-colors">
+                        <Link to="/my-orders" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold text-center transition-colors">
                             My Orders
                         </Link>
                     </div>

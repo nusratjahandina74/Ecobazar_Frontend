@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation, useSearchParams } from "react-router";
 import { ShoppingCart, User, Menu, X, Search, ChevronDown, LogOut, LayoutDashboard, Heart } from "./Icons";
 import { useCart } from "../../context/CartContext";
@@ -30,8 +30,17 @@ export default function Navbar() {
     const activeCategory = categories.find((c) => c.name === activeCategoryParam);
     const showRefineBar = location.pathname === "/products" && activeCategory && activeCategory.subcategories.length > 0;
 
+    // close the mobile menu after any navigation (links, back button) or Escape
+    useEffect(() => { setOpen(false); }, [location.pathname]);
+    useEffect(() => {
+        if (!open) return undefined;
+        const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+        document.addEventListener("keydown", onKey);
+        return () => document.removeEventListener("keydown", onKey);
+    }, [open]);
+
     const linkClass = ({ isActive }) =>
-        `text-sm font-medium transition-colors ${isActive ? "text-leaf" : "text-forest/70 "}`;
+        `block text-sm font-medium transition-colors ${isActive ? "text-leaf" : "text-forest/70 "}`;
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -71,16 +80,16 @@ export default function Navbar() {
 
             {/* Main navbar */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center gap-4 sm:gap-8 h-16">
-                    <Link to="/" className="flex items-center gap-2 shrink-0" aria-label={`${storeName} home`}>
-                        <img src={settings?.store?.logo || "/favicon.svg"} alt="" width="34" height="34" className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg object-contain" />
-                        <span className="font-display text-xl sm:text-2xl font-semibold text-forest tracking-tight">
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-8 h-16">
+                    <Link to="/" className="flex items-center gap-2 min-w-0 shrink" aria-label={`${storeName} home`}>
+                        <img src={settings?.store?.logo || "/favicon.svg"} alt="" width="34" height="34" className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg object-contain shrink-0" />
+                        <span className="font-display text-xl sm:text-2xl font-semibold text-forest tracking-tight truncate">
                             {storeName === "EcoBazaar" ? (<>Eco<span className="text-leaf">Bazaar</span></>) : storeName}
                         </span>
                     </Link>
 
                     {/* Search — desktop */}
-                    <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl" role="search">
+                    <form onSubmit={handleSearch} className="hidden md:flex flex-1 min-w-0 max-w-xl" role="search">
                         <div className="relative w-full">
                             <Search size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate/50" />
                             <input
@@ -95,17 +104,17 @@ export default function Navbar() {
                     </form>
 
                     {/* Right actions */}
-                    <div className="hidden md:flex items-center gap-5 ml-auto shrink-0">
+                    <div className="hidden md:flex items-center gap-3 lg:gap-5 ml-auto shrink-0">
                         {isAuthenticated ? (
                             <>
                                 {canAdmin && (
                                     <a href={ADMIN_URL} target="_blank" rel="noreferrer" className={iconLink}>
-                                        <LayoutDashboard size={18} /> Admin
+                                        <LayoutDashboard size={18} /> <span className="hidden lg:inline">Admin</span>
                                     </a>
                                 )}
-                                <Link to="/profile" className={iconLink}>
+                                <Link to="/profile" className={iconLink} aria-label={`Profile: ${user.name}`} title={user.name}>
                                     <User size={19} />
-                                    <span className="max-w-[9rem] truncate">{user.name}</span>
+                                    <span className="hidden lg:inline max-w-[9rem] truncate">{user.name}</span>
                                 </Link>
                                 <button onClick={handleLogout} className={iconLink} aria-label="Sign out">
                                     <LogOut size={18} />
@@ -134,9 +143,19 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    <button className="md:hidden ml-auto text-forest transition-colors" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
-                        {open ? <X size={22} /> : <Menu size={22} />}
-                    </button>
+                    <div className="md:hidden ml-auto flex items-center shrink-0">
+                        <Link to="/wishlist" className="relative flex items-center justify-center w-10 h-10 text-forest" aria-label={`Wishlist, ${wishCount} items`}>
+                            <Heart size={20} />
+                            {wishCount > 0 && <span className="absolute top-1 right-0.5 bg-leaf text-white text-[10px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">{wishCount}</span>}
+                        </Link>
+                        <Link to="/cart" className="relative flex items-center justify-center w-10 h-10 text-forest" aria-label={`Cart, ${totalItems} items`}>
+                            <ShoppingCart size={20} />
+                            {totalItems > 0 && <span className="absolute top-1 right-0.5 bg-leaf text-white text-[10px] font-bold min-w-4 h-4 px-1 rounded-full flex items-center justify-center">{totalItems}</span>}
+                        </Link>
+                        <button className="flex items-center justify-center w-10 h-10 -mr-2 text-forest transition-colors" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
+                            {open ? <X size={22} /> : <Menu size={22} />}
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -199,7 +218,7 @@ export default function Navbar() {
 
             {/* Mobile menu */}
             {open && (
-                <div className="md:hidden border-t border-forest/10 bg-white px-4 pb-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                <div className="md:hidden border-t border-forest/10 bg-white px-4 pb-4 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain">
                     <form onSubmit={handleSearch} className="pt-3" role="search">
                         <div className="relative">
                             <Search size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate/50" />
@@ -216,7 +235,7 @@ export default function Navbar() {
 
                     <nav className="flex flex-col pt-4">
                         <NavLink to="/products" end className={linkClass} onClick={() => setOpen(false)}>
-                            <span className="block py-2">All Products</span>
+                            <span className="block py-3">All Products</span>
                         </NavLink>
 
                         {categories.map((cat) => {
@@ -227,7 +246,7 @@ export default function Navbar() {
                                     <button
                                         onClick={() => setOpenMobileCat(isOpen ? null : cat.name)}
                                         aria-expanded={isOpen}
-                                        className="w-full flex items-center justify-between py-2.5 text-sm text-forest/70 transition-colors"
+                                        className="w-full flex items-center justify-between py-3 text-sm text-forest/70 transition-colors"
                                     >
                                         <span className="flex items-center gap-2.5">
                                             <Icon size={16} className="text-leaf" />
@@ -237,8 +256,8 @@ export default function Navbar() {
                                     </button>
 
                                     {isOpen && (
-                                        <div className="pl-7 pb-2 flex flex-col gap-1.5">
-                                            <Link to={`/products?category=${encodeURIComponent(cat.name)}`} onClick={() => setOpen(false)} className="text-xs font-medium text-leaf py-1">
+                                        <div className="pl-7 pb-2 flex flex-col">
+                                            <Link to={`/products?category=${encodeURIComponent(cat.name)}`} onClick={() => setOpen(false)} className="text-sm font-medium text-leaf py-2">
                                                 View all {cat.name}
                                             </Link>
                                             {cat.subcategories.map((sub) => (
@@ -246,7 +265,7 @@ export default function Navbar() {
                                                     key={sub}
                                                     to={`/products?category=${encodeURIComponent(cat.name)}&sub=${encodeURIComponent(sub)}`}
                                                     onClick={() => setOpen(false)}
-                                                    className="text-xs text-slate py-1"
+                                                    className="text-sm text-slate py-2"
                                                 >
                                                     {sub}
                                                 </Link>
@@ -257,7 +276,7 @@ export default function Navbar() {
                             );
                         })}
 
-                        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 pt-4 mt-2 border-t border-forest/10">
+                        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 pt-3 mt-2 border-t border-forest/10 [&>*]:py-2">
                             <Link to="/wishlist" onClick={() => setOpen(false)} className={iconLink}>
                                 <Heart size={18} /> Wishlist{wishCount > 0 && ` (${wishCount})`}
                             </Link>

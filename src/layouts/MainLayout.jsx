@@ -7,7 +7,7 @@ import ScrollToTop from "../components/common/ScrollToTop";
 
 export default function MainLayout() {
     return (
-        <div className="flex flex-col min-h-screen bg-snow font-sans text-forest">
+        <div className="flex flex-col min-h-dvh bg-snow font-sans text-forest">
             <ScrollToTop />
             <NoticeBar />
             <Navbar />

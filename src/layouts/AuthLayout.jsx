@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function AuthLayout({ title, subtitle, children }) {
     return (
-        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+        <div className="min-h-dvh grid grid-cols-1 md:grid-cols-2">
             {/* Brand panel */}
             <div className="hidden md:flex flex-col justify-between bg-gradient-to-br from-forest via-leaf-dark to-leaf text-white p-10 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]" />
@@ -24,7 +24,7 @@ export default function AuthLayout({ title, subtitle, children }) {
             </div>
 
             {/* Form panel */}
-            <div className="flex items-center justify-center p-6 sm:p-10 bg-white">
+            <div className="flex items-center justify-center px-5 py-8 sm:p-10 bg-white">
                 <div className="w-full max-w-sm">
                     <div className="md:hidden mb-8">
                         <Link to="/" className="font-display text-2xl font-semibold text-forest">
@@ -35,7 +35,7 @@ export default function AuthLayout({ title, subtitle, children }) {
                     <h1 className="font-display text-2xl font-semibold text-forest">{title}</h1>
                     {subtitle && <p className="text-slate text-sm mt-1.5">{subtitle}</p>}
 
-                    <div className="mt-8">{children}</div>
+                    <div className="mt-6 sm:mt-8">{children}</div>
                 </div>
             </div>
         </div>

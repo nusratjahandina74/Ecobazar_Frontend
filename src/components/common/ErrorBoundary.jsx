@@ -14,7 +14,7 @@ export default class ErrorBoundary extends Component {
     render() {
         if (!this.state.hasError) return this.props.children;
         return (
-            <div className="min-h-screen flex items-center justify-center bg-white px-6">
+            <div className="min-h-dvh flex items-center justify-center bg-white px-6">
                 <div className="text-center max-w-sm">
                     <p className="font-display text-2xl font-semibold text-forest">Something went wrong</p>
                     <p className="text-sm text-slate mt-2">An unexpected error occurred. Please reload the page.</p>

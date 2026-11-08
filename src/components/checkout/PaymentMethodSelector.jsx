@@ -16,9 +16,9 @@ export default function PaymentMethodSelector({ value, onChange, delivery }) {
                     return (
                         <button
                             key={v} type="button" role="radio" aria-checked={active} onClick={() => onChange(v)}
-                            className={`flex items-center justify-between p-4 text-left rounded-lg border ${active ? "border-leaf bg-mint" : "border-forest/15 bg-white"}`}
+                            className={`flex items-center justify-between gap-3 p-3.5 sm:p-4 text-left rounded-lg border ${active ? "border-leaf bg-mint" : "border-forest/15 bg-white"}`}
                         >
-                            <span className="flex items-center gap-3">
+                            <span className="flex items-center gap-3 min-w-0">
                                 <span className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${active ? "bg-leaf text-white" : "bg-forest/5 text-forest/60"}`}><Icon size={16} /></span>
                                 <span>
                                     <span className="block text-sm font-semibold text-forest">{title}</span>

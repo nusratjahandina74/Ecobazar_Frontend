@@ -11,14 +11,14 @@ export default function CartSummary({ items = [], subtotal, itemCount, disabled 
             <ul className="flex flex-col gap-2 text-sm pb-3 mb-3 border-b border-forest/10 max-h-56 overflow-y-auto pr-1">
                 {items.map((i) => (
                     <li key={i.cartId} className="flex justify-between gap-3 text-slate">
-                        <span className="line-clamp-1">{i.title} <span className="text-slate/60">× {i.quantity}</span></span>
+                        <span className="line-clamp-1 min-w-0 [overflow-wrap:anywhere]">{i.title} <span className="text-slate/60">× {i.quantity}</span></span>
                         <span className="font-medium text-forest shrink-0">{formatBDT(i.price * i.quantity)}</span>
                     </li>
                 ))}
             </ul>
-            <div className="flex justify-between text-sm text-slate">
-                <span>Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"}, {items.length} {items.length === 1 ? "product" : "products"})</span>
-                <span className="font-medium text-forest">{formatBDT(subtotal)}</span>
+            <div className="flex justify-between gap-3 text-sm text-slate">
+                <span className="min-w-0">Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"}, {items.length} {items.length === 1 ? "product" : "products"})</span>
+                <span className="font-medium text-forest shrink-0">{formatBDT(subtotal)}</span>
             </div>
 
             <div className="flex items-center justify-between pt-4 mt-4 border-t border-forest/10">

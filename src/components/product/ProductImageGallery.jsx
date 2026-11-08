@@ -9,9 +9,9 @@ export default function ProductImageGallery({ images = [], title = "Product" }) 
     }, [images]);
 
     return (
-        <div className="flex flex-col-reverse sm:flex-row gap-4">
+        <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 min-w-0 max-w-full">
             {images.length > 1 && (
-                <div className="flex sm:flex-col gap-3">
+                <div className="flex sm:flex-col gap-3 shrink-0 max-w-full overflow-x-auto sm:overflow-x-visible sm:overflow-y-auto sm:max-h-[32rem] pb-1 sm:pb-0 overscroll-contain">
                     {images.map((img, i) => (
                         <button
                             key={img.url}
@@ -25,7 +25,7 @@ export default function ProductImageGallery({ images = [], title = "Product" }) 
                 </div>
             )}
 
-            <div className="flex-1 aspect-square rounded-xl overflow-hidden bg-mint">
+            <div className="flex-1 min-w-0 aspect-square rounded-xl overflow-hidden bg-mint">
                 <ProductImage src={active} alt={title} className="w-full h-full object-cover" />
             </div>
         </div>

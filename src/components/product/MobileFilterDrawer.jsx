@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { X } from "../common/Icons";
 import PriceRangeSlider from "./PriceRangeSlider";
 
@@ -15,15 +16,24 @@ export default function MobileFilterDrawer({
     priceFloor,
     priceCeil,
 }) {
+    useEffect(() => {
+        if (!open) return undefined;
+        const onKey = (e) => { if (e.key === "Escape") onClose(); };
+        document.addEventListener("keydown", onKey);
+        const prev = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+    }, [open, onClose]);
+
     if (!open) return null;
 
     return (
-        <div className="fixed inset-0 z-60 lg:hidden">
+        <div className="fixed inset-0 z-60 lg:hidden" role="dialog" aria-modal="true" aria-label="Filters">
             {/* Backdrop */}
             <div className="absolute inset-0 bg-forest/50" onClick={onClose} />
 
             {/* Panel */}
-            <div className="absolute right-0 top-0 h-full w-[85vw] max-w-sm bg-white shadow-2xl flex flex-col">
+            <div className="absolute right-0 top-0 h-dvh w-[85vw] max-w-sm bg-white shadow-2xl flex flex-col">
                 {/* Header */}
                 <div className="flex items-center justify-between px-5 h-16 border-b border-forest/10 shrink-0">
                     <h3 className="font-display text-lg font-semibold text-forest">Filters</h3>
@@ -37,7 +47,7 @@ export default function MobileFilterDrawer({
                 </div>
 
                 {/* Scrollable body */}
-                <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-6">
+                <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5 flex flex-col gap-6">
                     {/* Category */}
                     <div>
                         <h4 className="text-xs font-semibold text-slate/60 uppercase tracking-wide mb-3">Category</h4>
@@ -99,7 +109,7 @@ export default function MobileFilterDrawer({
                 </div>
 
                 {/* Footer */}
-                <div className="px-5 py-4 border-t border-forest/10 shrink-0">
+                <div className="px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-forest/10 shrink-0">
                     <button
                         onClick={onClose}
                         className="w-full py-3 rounded-lg bg-leaf text-white text-sm font-semibold transition-colors"

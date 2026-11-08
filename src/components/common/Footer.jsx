@@ -20,20 +20,20 @@ export default function Footer() {
     }, []);
     const name = s.name || "EcoBazaar";
     const social = [["Facebook", s.facebook, FacebookIcon], ["Instagram", s.instagram, InstagramIcon], ["YouTube", s.youtube, YoutubeIcon]].filter(([, u]) => u);
-    const link = "underline-offset-2";
+    const link = "underline-offset-2 inline-block py-1";
     return (
-        <footer className="bg-forest text-snow/80 mt-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
-                    <div className="lg:col-span-2 space-y-4">
+        <footer className="bg-forest text-snow/80 mt-12 sm:mt-20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
+                    <div className="sm:col-span-2 lg:col-span-2 space-y-4 min-w-0">
                         <h3 className="font-display text-xl font-semibold text-snow">{name}</h3>
                         {s.tagline && <p className="text-sm text-snow/60 max-w-xs">{s.tagline}</p>}
                         <ul className="space-y-2 text-sm text-snow/70">
-                            {s.phone && <li className="flex items-start gap-2"><Phone size={15} className="mt-0.5 shrink-0 text-leaf" /><a href={`tel:${s.phone}`}>{s.phone}</a></li>}
-                            {s.email && <li className="flex items-start gap-2"><Mail size={15} className="mt-0.5 shrink-0 text-leaf" /><a href={`mailto:${s.email}`}>{s.email}</a></li>}
-                            {s.address && <li className="flex items-start gap-2"><MapPin size={15} className="mt-0.5 shrink-0 text-leaf" /><span>{s.address}</span></li>}
+                            {s.phone && <li className="flex items-start gap-2 min-w-0"><Phone size={15} className="mt-0.5 shrink-0 text-leaf" /><a href={`tel:${s.phone}`} className="min-w-0 [overflow-wrap:anywhere]">{s.phone}</a></li>}
+                            {s.email && <li className="flex items-start gap-2 min-w-0"><Mail size={15} className="mt-0.5 shrink-0 text-leaf" /><a href={`mailto:${s.email}`} className="min-w-0 [overflow-wrap:anywhere]">{s.email}</a></li>}
+                            {s.address && <li className="flex items-start gap-2 min-w-0"><MapPin size={15} className="mt-0.5 shrink-0 text-leaf" /><span className="min-w-0 [overflow-wrap:anywhere]">{s.address}</span></li>}
                         </ul>
-                        {social.length > 0 && <div className="flex gap-3">{social.map(([label, url, Icon]) => <a key={label} href={ext(url)} target="_blank" rel="noreferrer" aria-label={label} className="w-9 h-9 rounded-full bg-snow/10 flex items-center justify-center"><Icon width={16} height={16} /></a>)}</div>}
+                        {social.length > 0 && <div className="flex gap-3">{social.map(([label, url, Icon]) => <a key={label} href={ext(url)} target="_blank" rel="noreferrer" aria-label={label} className="w-10 h-10 rounded-full bg-snow/10 flex items-center justify-center"><Icon width={16} height={16} /></a>)}</div>}
                         {settings.home?.showNewsletter !== false && <NewsletterBox tone="dark" />}
                     </div>
 
@@ -67,7 +67,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-snow/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div className="border-t border-snow/10 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
                     <p className="text-xs text-snow/40">© {new Date().getFullYear()} {name}. All rights reserved.</p>
                     <p className="text-xs text-snow/40">Cash on delivery and online payment available</p>
                 </div>

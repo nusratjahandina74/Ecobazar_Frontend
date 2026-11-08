@@ -10,7 +10,7 @@ export default function OrderSummary({ items = [], subtotal = 0, deliveryCharge 
             <ul className="flex flex-col gap-2.5 text-sm max-h-60 overflow-y-auto pr-1">
                 {items.map((i) => (
                     <li key={i.cartId} className="flex justify-between gap-3 text-slate">
-                        <span className="line-clamp-1">{i.title}{i.variantLabel ? ` (${i.variantLabel})` : ""} <span className="text-slate/60">× {i.quantity}</span></span>
+                        <span className="line-clamp-1 min-w-0 [overflow-wrap:anywhere]">{i.title}{i.variantLabel ? ` (${i.variantLabel})` : ""} <span className="text-slate/60">× {i.quantity}</span></span>
                         <span className="font-medium text-forest shrink-0">{formatBDT(i.price * i.quantity)}</span>
                     </li>
                 ))}

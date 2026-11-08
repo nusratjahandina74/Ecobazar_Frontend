@@ -15,7 +15,7 @@ export default function OrderFailed() {
     const txnId = params.get("txnId");
 
     return (
-        <div className="max-w-lg mx-auto px-4 py-24 text-center">
+        <div className="max-w-lg mx-auto px-4 py-12 sm:py-24 text-center">
             <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-6">
                 <AlertCircle size={28} className="text-red-500" strokeWidth={2.5} />
             </div>
@@ -25,8 +25,8 @@ export default function OrderFailed() {
             {txnId && <p className="text-xs text-slate/70 mt-3 break-all">Reference: {txnId}</p>}
 
             <div className="flex flex-col sm:flex-row gap-3 mt-8">
-                <Link to="/checkout" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold transition-colors">Try Again</Link>
-                <Link to="/cart" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold transition-colors">Back to Cart</Link>
+                <Link to="/checkout" className="flex-1 py-2.5 rounded-lg bg-leaf text-white text-sm font-semibold text-center transition-colors">Try Again</Link>
+                <Link to="/cart" className="flex-1 py-2.5 rounded-lg border border-leaf/40 text-leaf-dark text-sm font-semibold text-center transition-colors">Back to Cart</Link>
             </div>
         </div>
     );

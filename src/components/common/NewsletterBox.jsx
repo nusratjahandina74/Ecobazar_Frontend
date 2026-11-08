@@ -17,12 +17,12 @@ export default function NewsletterBox({ tone = "light" }) {
         <form onSubmit={submit} noValidate>
             <label htmlFor={`nl-${tone}`} className={`text-sm font-semibold ${dark ? "text-snow" : "text-forest"}`}>Get offers in your inbox</label>
             <div className="mt-2 flex gap-2 max-w-sm">
-                <div className="relative flex-1">
+                <div className="relative flex-1 min-w-0">
                     <Mail size={15} className={`absolute left-3 top-3 ${dark ? "text-snow/40" : "text-forest/40"}`} />
                     <input id={`nl-${tone}`} type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
                         className={`w-full h-10 rounded-lg pl-9 pr-3 text-sm border outline-none ${dark ? "bg-snow/10 border-snow/20 text-snow placeholder:text-snow/40" : "bg-white border-forest/15 text-forest"}`} />
                 </div>
-                <button type="submit" disabled={state.busy} className="h-10 px-4 rounded-lg bg-leaf text-white text-sm font-semibold disabled:opacity-60">{state.busy ? "Joining..." : "Subscribe"}</button>
+                <button type="submit" disabled={state.busy} className="h-10 px-4 shrink-0 rounded-lg bg-leaf text-white text-sm font-semibold disabled:opacity-60">{state.busy ? "Joining..." : "Subscribe"}</button>
             </div>
             {state.msg && <p role="status" className={`text-xs mt-2 ${state.ok ? (dark ? "text-leaf-soft" : "text-leaf-dark") : "text-red-500"}`}>{state.msg}</p>}
         </form>

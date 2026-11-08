@@ -114,18 +114,18 @@ export default function Checkout() {
     }
 
     return (
-        <div className="px-4 pt-8 pb-32 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:pt-10 lg:pb-12">
-            <h1 className="mb-6 text-3xl font-semibold font-display text-forest">Checkout</h1>
+        <div className="px-4 pt-6 sm:pt-8 pb-32 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:pt-10 lg:pb-12">
+            <h1 className="mb-5 sm:mb-6 text-2xl sm:text-3xl font-semibold font-display text-forest">Checkout</h1>
 
-            <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 gap-8 lg:grid-cols-3" noValidate>
-                <div className="flex flex-col gap-6 lg:col-span-2">
+            <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 gap-6 lg:gap-8 lg:grid-cols-3" noValidate>
+                <div className="flex flex-col gap-5 sm:gap-6 lg:col-span-2 min-w-0">
                     <AddressForm form={form} errors={errors} onChange={handleChange} />
                     <DeliveryZoneSelect value={zone} onChange={setZone} delivery={delivery} subtotal={subtotal} />
                     <PaymentMethodSelector value={method} onChange={setMethod} delivery={delivery} />
                 </div>
 
                 {/* The WHOLE column is sticky, so the summary and the Place-order button stay on screen together while the form scrolls. */}
-                <aside className="flex flex-col gap-4 lg:sticky lg:top-40 lg:self-start lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto lg:pr-1">
+                <aside className="flex flex-col gap-4 lg:sticky lg:top-40 lg:self-start lg:max-h-[calc(100dvh-11rem)] lg:overflow-y-auto lg:pr-1">
                     <OrderSummary items={items} subtotal={subtotal} deliveryCharge={deliveryCharge} deliveryFree={deliveryFree} discount={discount} couponCode={coupon?.couponCode}>
                         <CouponBox applied={coupon ? { code: coupon.couponCode, discount } : null} onApply={applyCoupon} onRemove={() => setCoupon(null)} />
                     </OrderSummary>
@@ -137,13 +137,13 @@ export default function Checkout() {
                 </aside>
 
                 {/* Mobile / tablet: the button is pinned to the bottom of the screen, always reachable. */}
-                <div className="fixed inset-x-0 bottom-0 z-40 px-4 py-3 bg-white border-t shadow-[0_-4px_16px_rgba(15,61,36,.08)] lg:hidden border-forest/10">
+                <div className="fixed inset-x-0 bottom-0 z-40 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white border-t shadow-[0_-4px_16px_rgba(15,61,36,.08)] lg:hidden border-forest/10">
                     <div className="flex items-center gap-3 mx-auto max-w-7xl">
                         <div className="shrink-0">
                             <p className="text-xs text-slate">Total</p>
                             <p className="text-lg font-semibold leading-tight font-display text-forest">{formatBDT(total)}</p>
                         </div>
-                        <Button type="submit" loading={placing} className="flex-1">{placeLabel}</Button>
+                        <Button type="submit" loading={placing} className="flex-1 min-w-0 px-3 leading-tight">{placeLabel}</Button>
                     </div>
                 </div>
             </form>

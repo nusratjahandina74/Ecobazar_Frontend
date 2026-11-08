@@ -79,7 +79,7 @@ export default function Register() {
     return (
         <AuthLayout title="Create your account" subtitle="Start shopping in a couple of minutes.">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 min-[400px]:grid-cols-2 gap-4 min-[400px]:gap-3">
                     <InputField label="First name" name="firstName" icon={User} value={form.firstName} onChange={handleChange} error={errors.firstName} placeholder="Jane" autoComplete="given-name" />
                     <InputField label="Last name" name="lastName" value={form.lastName} onChange={handleChange} error={errors.lastName} placeholder="Doe" autoComplete="family-name" />
                 </div>

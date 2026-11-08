@@ -81,7 +81,7 @@ export default function PriceRangeSlider({ min = 0, max = 10000, value, onChange
             </div>
 
             {/* Slider track */}
-            <div className="px-1 pt-1 pb-2">
+            <div className="px-2 pt-1 pb-2">
                 <div ref={trackRef} className="relative h-2 rounded-full bg-forest/8">
                     <div
                         className="absolute h-full rounded-full bg-gray-400"
@@ -95,7 +95,7 @@ export default function PriceRangeSlider({ min = 0, max = 10000, value, onChange
                     <div
                         onMouseDown={() => setDragging("min")}
                         onTouchStart={() => setDragging("min")}
-                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-white border-[3px] border-gray-400
+                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-white border-[3px] border-gray-400 after:absolute after:-inset-3 after:content-['']
               shadow-sm cursor-grab active:cursor-grabbing transition-transform touch-none
               ${dragging === "min" ? "scale-125 ring-4 ring-gray-300/40" : ""}`}
                         style={{ left: `${percent(localMin)}%` }}
@@ -105,7 +105,7 @@ export default function PriceRangeSlider({ min = 0, max = 10000, value, onChange
                     <div
                         onMouseDown={() => setDragging("max")}
                         onTouchStart={() => setDragging("max")}
-                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-white border-[3px] border-gray-400
+                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-white border-[3px] border-gray-400 after:absolute after:-inset-3 after:content-['']
               shadow-sm cursor-grab active:cursor-grabbing transition-transform touch-none
               ${dragging === "max" ? "scale-125 ring-4 ring-gray-300/40" : ""}`}
                         style={{ left: `${percent(localMax)}%` }}
@@ -115,13 +115,14 @@ export default function PriceRangeSlider({ min = 0, max = 10000, value, onChange
 
             {/* Editable number inputs — no borders */}
             <div className="flex items-center gap-2 mt-3">
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                     <label className="text-[10px] font-medium text-slate/60 uppercase tracking-wide">Min</label>
                     <div className="flex items-center gap-1 mt-1 px-2.5 py-1.5 rounded-lg bg-forest/[0.04] focus-within:bg-forest/[0.07] transition-colors">
                         <span className="text-xs text-slate/50">৳</span>
                         <input
                             type="number"
                             value={localMin}
+                            inputMode="numeric"
                             onChange={handleMinInput}
                             onBlur={commitInputChange}
                             className="w-full text-sm text-forest bg-transparent focus:outline-none"
@@ -131,13 +132,14 @@ export default function PriceRangeSlider({ min = 0, max = 10000, value, onChange
 
                 <span className="text-slate/30 mt-4">—</span>
 
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                     <label className="text-[10px] font-medium text-slate/60 uppercase tracking-wide">Max</label>
                     <div className="flex items-center gap-1 mt-1 px-2.5 py-1.5 rounded-lg bg-forest/[0.04] focus-within:bg-forest/[0.07] transition-colors">
                         <span className="text-xs text-slate/50">৳</span>
                         <input
                             type="number"
                             value={localMax}
+                            inputMode="numeric"
                             onChange={handleMaxInput}
                             onBlur={commitInputChange}
                             className="w-full text-sm text-forest bg-transparent focus:outline-none"

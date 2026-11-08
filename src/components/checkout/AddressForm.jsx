@@ -4,7 +4,7 @@ import { MapPin, Phone, User, Mail } from "../common/Icons";
 // Field names mirror what POST /payment expects (cus_name, cus_email, cus_add1, ...).
 export default function AddressForm({ form, errors, onChange }) {
     return (
-        <div className="bg-white rounded-xl border border-forest/10 p-5 sm:p-6">
+        <div className="bg-white rounded-xl border border-forest/10 p-4 sm:p-6">
             <h2 className="font-display text-lg font-semibold text-forest mb-5">Shipping Details</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

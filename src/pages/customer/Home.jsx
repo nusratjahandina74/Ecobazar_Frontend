@@ -26,13 +26,13 @@ const DEFAULT_BADGES = [
 
 function SectionHeader({ title, subtitle, showLink = true }) {
     return (
-        <div className="flex items-end justify-between mb-6">
-            <div>
+        <div className="flex items-end justify-between gap-3 mb-5 sm:mb-6">
+            <div className="min-w-0">
                 <h2 className="font-display text-2xl sm:text-3xl font-semibold text-forest">{title}</h2>
                 <p className="text-sm text-slate mt-1">{subtitle}</p>
             </div>
             {showLink && (
-                <Link to="/products" className="hidden sm:flex items-center gap-1.5 text-sm font-medium text-leaf transition-colors">
+                <Link to="/products" className="flex shrink-0 items-center gap-1.5 text-sm font-medium text-leaf transition-colors py-2">
                     View all <ArrowRight size={14} />
                 </Link>
             )}
@@ -70,10 +70,10 @@ export default function Home() {
             {/* Hero */}
             <section className="bg-gradient-to-br from-forest via-leaf-dark to-leaf relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.08] [background-image:radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] [background-size:24px_24px]" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 relative z-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-                        <div className="max-w-xl">
-                            <h1 className="font-display text-4xl sm:text-5xl font-semibold text-white leading-tight">
+                        <div className="max-w-xl min-w-0">
+                            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-white leading-tight [overflow-wrap:anywhere]">
                                 {settings.store?.tagline || "Everything you need, delivered to your door."}
                             </h1>
                             <p className="text-white/80 text-base mt-4 max-w-md">
@@ -96,13 +96,13 @@ export default function Home() {
 
             {/* Trust strip */}
             <section className="border-b border-forest/10 bg-mint/50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-2 sm:grid-cols-4 gap-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
                     {badges.map(({ icon, title: label, text: desc }) => { const Icon = ICONS[icon] || Sparkles; return (
-                        <div key={label} className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-leaf/10 flex items-center justify-center shrink-0">
+                        <div key={label} className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-leaf/10 flex items-center justify-center shrink-0">
                                 <Icon size={19} className="text-leaf" />
                             </div>
-                            <div>
+                            <div className="min-w-0">
                                 <p className="text-sm font-semibold text-forest">{label}</p>
                                 <p className="text-xs text-slate">{desc}</p>
                             </div>
@@ -119,7 +119,7 @@ export default function Home() {
                     <OfferSlider products={deals} title="Today's Deals" subtitle="Discounted products — grab them before they're gone" />
 
                     {home.showCategories !== false && tiles.length > 0 && (
-                        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+                        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
                             <SectionHeader title="Shop by Category" subtitle="Browse our departments" showLink={false} />
                             {tiles.some((c) => c.image) ? <CategoryTiles categories={tiles} /> : <CategoryGrid categories={tiles} />}
                         </section>

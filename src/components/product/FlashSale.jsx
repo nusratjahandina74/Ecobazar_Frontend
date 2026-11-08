@@ -16,11 +16,11 @@ export default function FlashSale({ flash, products }) {
     if (!flash?.enabled || t.done || !products.length) return null;
     return (
         <section aria-label={flash.title || "Flash sale"} className="bg-forest">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
                 <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-7">
                     <div>
                         <p className="inline-flex items-center gap-1.5 text-leaf-soft text-sm font-semibold"><Flame size={16} /> Limited time</p>
-                        <h2 className="font-display text-3xl sm:text-4xl font-semibold text-white mt-1">{flash.title || "Flash sale"}</h2>
+                        <h2 className="font-display text-2xl sm:text-4xl font-semibold text-white mt-1 [overflow-wrap:anywhere]">{flash.title || "Flash sale"}</h2>
                         {flash.subtitle && <p className="text-white/70 text-sm mt-1.5">{flash.subtitle}</p>}
                     </div>
                     <div className="flex items-start gap-2 sm:gap-3" role="timer" aria-label="Time left">

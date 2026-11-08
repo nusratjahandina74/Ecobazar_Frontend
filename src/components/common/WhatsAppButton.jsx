@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className="fixed z-40 bottom-24 lg:bottom-5 right-5 w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center"
+            className="fixed z-40 bottom-[calc(6rem+env(safe-area-inset-bottom))] lg:bottom-5 right-4 sm:right-5 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center"
         >
             <MessageCircle size={26} />
         </a>

@@ -41,9 +41,9 @@ export default function ReviewsSection({ productId }) {
     if (settings.reviews?.enabled === false) return null;
     const s = data?.summary || { count: 0, average: 0, distribution: {} };
     return (
-        <section id="reviews" className="mt-14 pt-10 border-t border-forest/10" aria-labelledby="reviews-title">
+        <section id="reviews" className="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-forest/10" aria-labelledby="reviews-title">
             <h2 id="reviews-title" className="font-display text-2xl font-semibold text-forest">Customer reviews</h2>
-            <div className="mt-6 grid gap-8 lg:grid-cols-[16rem_1fr]">
+            <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
                 <div>
                     {s.count ? (<>
                         <p className="font-display text-5xl font-semibold text-forest">{Number(s.average).toFixed(1)}</p>
@@ -60,14 +60,14 @@ export default function ReviewsSection({ productId }) {
                 </div>
                 <ul className="space-y-5">
                     {(data?.data || []).map((r) => (
-                        <li key={r._id} className="rounded-xl border border-forest/10 bg-white p-5">
-                            <div className="flex flex-wrap items-center gap-2"><Stars value={r.rating} size={15} /><span className="text-sm font-semibold text-forest">{r.userName}</span>{r.verified && <span className="inline-flex items-center gap-1 text-xs text-leaf-dark"><CircleCheck size={14} /> Verified buyer</span>}<span className="text-xs text-slate ml-auto">{dateFmt(r.createdAt)}</span></div>
-                            {r.title && <p className="text-sm font-semibold text-forest mt-2">{r.title}</p>}
+                        <li key={r._id} className="rounded-xl border border-forest/10 bg-white p-4 sm:p-5">
+                            <div className="flex flex-wrap items-center gap-2"><Stars value={r.rating} size={15} /><span className="text-sm font-semibold text-forest min-w-0 [overflow-wrap:anywhere]">{r.userName}</span>{r.verified && <span className="inline-flex items-center gap-1 text-xs text-leaf-dark"><CircleCheck size={14} /> Verified buyer</span>}<span className="text-xs text-slate ml-auto">{dateFmt(r.createdAt)}</span></div>
+                            {r.title && <p className="text-sm font-semibold text-forest mt-2 [overflow-wrap:anywhere]">{r.title}</p>}
                             {r.comment && <p className="text-sm text-slate mt-1 whitespace-pre-wrap break-words">{r.comment}</p>}
-                            {r.adminReply && <div className="mt-3 rounded-lg bg-mint px-3 py-2 text-sm"><b className="text-forest">Reply from the shop:</b> <span className="text-slate">{r.adminReply}</span></div>}
+                            {r.adminReply && <div className="mt-3 rounded-lg bg-mint px-3 py-2 text-sm"><b className="text-forest">Reply from the shop:</b> <span className="text-slate [overflow-wrap:anywhere]">{r.adminReply}</span></div>}
                         </li>))}
                     {data?.pagination?.pages > 1 && (
-                        <li className="flex items-center gap-3 text-sm"><button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="px-3 py-1.5 rounded-lg border border-forest/15 disabled:opacity-40">Previous</button><span className="text-slate">Page {page} of {data.pagination.pages}</span><button type="button" disabled={page >= data.pagination.pages} onClick={() => setPage((p) => p + 1)} className="px-3 py-1.5 rounded-lg border border-forest/15 disabled:opacity-40">Next</button></li>)}
+                        <li className="flex flex-wrap items-center gap-3 text-sm"><button type="button" disabled={page <= 1} onClick={() => setPage((p) => p - 1)} className="px-3 py-1.5 rounded-lg border border-forest/15 disabled:opacity-40">Previous</button><span className="text-slate">Page {page} of {data.pagination.pages}</span><button type="button" disabled={page >= data.pagination.pages} onClick={() => setPage((p) => p + 1)} className="px-3 py-1.5 rounded-lg border border-forest/15 disabled:opacity-40">Next</button></li>)}
                 </ul>
             </div>
         </section>

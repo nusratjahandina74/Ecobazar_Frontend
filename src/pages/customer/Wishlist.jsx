@@ -9,7 +9,7 @@ export default function Wishlist() {
     const { items, loading, error } = useWishlist();
 
     return (
-        <div className="px-4 py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div className="flex items-center gap-3 mb-6">
                 <Heart size={24} className="text-red-500" fill="currentColor" />
                 <div>

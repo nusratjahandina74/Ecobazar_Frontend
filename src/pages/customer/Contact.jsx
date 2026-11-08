@@ -28,9 +28,9 @@ export default function Contact() {
 
     const s = settings.store || {};
     return (
-        <div className="max-w-3xl px-4 py-10 mx-auto sm:px-6">
+        <div className="max-w-3xl px-4 py-6 sm:py-10 mx-auto sm:px-6">
             <h1 className="text-3xl font-semibold font-display text-forest">Contact us</h1>
-            <p className="mt-2 text-sm text-slate">
+            <p className="mt-2 text-sm text-slate [overflow-wrap:anywhere]">
                 {[s.phone, s.email, s.address].filter(Boolean).join(" · ") || "Send us a message and we will get back to you."}
             </p>
             <form onSubmit={submit} className="grid grid-cols-1 gap-4 p-5 mt-6 bg-white border sm:grid-cols-2 rounded-xl border-forest/10 sm:p-6" noValidate>

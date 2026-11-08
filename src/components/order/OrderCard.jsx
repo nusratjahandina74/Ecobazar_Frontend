@@ -10,8 +10,8 @@ export default function OrderCard({ order }) {
 
     return (
         <div className="bg-white rounded-xl border border-forest/10 overflow-hidden transition-colors">
-            <button onClick={() => setExpanded(!expanded)} aria-expanded={expanded} className="w-full flex items-center justify-between p-5 text-left">
-                <div className="flex items-center gap-x-6 gap-y-3 flex-wrap">
+            <button onClick={() => setExpanded(!expanded)} aria-expanded={expanded} className="w-full flex items-center justify-between gap-3 p-4 sm:p-5 text-left">
+                <div className="flex items-center gap-x-5 sm:gap-x-6 gap-y-3 flex-wrap min-w-0">
                     <div>
                         <p className="text-xs text-slate">Order</p>
                         <p className="text-sm font-semibold text-forest">{order.orderNumber || order.transactionId}</p>
@@ -33,7 +33,7 @@ export default function OrderCard({ order }) {
             </button>
 
             {expanded && (
-                <div className="border-t border-forest/10 p-5">
+                <div className="border-t border-forest/10 p-4 sm:p-5">
                     <div className="flex flex-col gap-3">
                         {order.items.map((item, i) => (
                             <div key={`${item.productId}-${i}`} className="flex items-center gap-3">
@@ -41,15 +41,15 @@ export default function OrderCard({ order }) {
                                     <Link to={`/products/${item.productId}`} className="text-sm text-forest font-medium line-clamp-1">{item.title}</Link>
                                     <p className="text-xs text-slate">{item.variantLabel ? `${item.variantLabel} · ` : ""}Qty: {item.quantity} × {formatBDT(item.price)}</p>
                                 </div>
-                                <span className="text-sm font-semibold text-forest">{formatBDT(item.totalPrice)}</span>
+                                <span className="text-sm font-semibold text-forest shrink-0">{formatBDT(item.totalPrice)}</span>
                             </div>
                         ))}
                     </div>
                     <div className="mt-4 pt-3 border-t border-forest/10 text-xs text-slate space-y-1">
-                        <p>Items {formatBDT(order.subtotal)} + delivery {formatBDT(order.deliveryCharge)} ({order.deliveryZone === "outside_dhaka" ? "outside Dhaka" : "inside Dhaka"}) · {order.paymentMethod === "cod" ? "Cash on delivery" : "Paid online"}</p>
+                        <p className="[overflow-wrap:anywhere]">Items {formatBDT(order.subtotal)} + delivery {formatBDT(order.deliveryCharge)} ({order.deliveryZone === "outside_dhaka" ? "outside Dhaka" : "inside Dhaka"}) · {order.paymentMethod === "cod" ? "Cash on delivery" : "Paid online"}</p>
                         {order.courier?.trackingCode && <p>Courier tracking: <span className="font-semibold text-forest">{order.courier.trackingCode}</span></p>}
                     </div>
-                    <p className="text-xs text-slate mt-3">
+                    <p className="text-xs text-slate mt-3 [overflow-wrap:anywhere]">
                         Ship to: {[a.name, a.address1, a.address2 !== "N/A" && a.address2, a.city, a.postcode].filter(Boolean).join(", ")}
                     </p>
                 </div>

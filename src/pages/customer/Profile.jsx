@@ -52,10 +52,10 @@ export default function Profile() {
 
     return (
         <div>
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-6 sm:mb-8 min-w-0">
                 <div className="w-16 h-16 rounded-full bg-leaf text-white flex items-center justify-center font-display text-xl font-semibold shrink-0">{initials}</div>
-                <div>
-                    <p className="font-display text-xl font-semibold text-forest">{user.name}</p>
+                <div className="min-w-0">
+                    <p className="font-display text-xl font-semibold text-forest [overflow-wrap:anywhere]">{user.name}</p>
                     <p className="text-sm text-slate">Member since {formatDate(user.createdAt)} · <span className="capitalize">{user.role}</span></p>
                 </div>
             </div>

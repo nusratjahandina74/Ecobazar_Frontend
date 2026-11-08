@@ -48,7 +48,7 @@ export default function WishlistButton({ product, variant = "icon", className = 
             aria-pressed={active}
             aria-label={label}
             title={label}
-            className={`w-8 h-8 rounded-full bg-white/95 shadow flex items-center justify-center transition-all  active:scale-95
+            className={`w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-white/95 shadow flex items-center justify-center transition-all  active:scale-95
         ${active ? "text-red-500" : "text-forest/50 "} ${className}`}
         >
             <Heart size={16} fill={active ? "currentColor" : "none"} />

@@ -88,19 +88,19 @@ export default function ProductListing() {
         `text-left text-sm px-3 py-2 rounded-lg transition-colors ${active ? "bg-leaf text-white" : "text-forest/70  "}`;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div className="flex items-end justify-between flex-wrap gap-4 mb-6">
-                <div>
-                    <h1 className="font-display text-3xl font-semibold text-forest">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-5 sm:mb-6">
+                <div className="min-w-0 max-w-full">
+                    <h1 className="font-display text-2xl sm:text-3xl font-semibold text-forest [overflow-wrap:anywhere]">
                         {subParam || categoryParam || (search ? `Results for "${search}"` : "All Products")}
                     </h1>
                     <p className="text-sm text-slate mt-1">{loading ? "Loading…" : `${filtered.length} products found`}</p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 max-w-full">
                     <button
                         onClick={() => setMobileFiltersOpen(true)}
-                        className="lg:hidden flex items-center gap-1.5 text-sm font-medium border border-forest/15 rounded-lg px-3 py-2 transition-colors"
+                        className="lg:hidden flex items-center gap-1.5 text-sm font-medium border border-forest/15 rounded-lg px-3 py-2.5 transition-colors"
                     >
                         <SlidersHorizontal size={15} /> Filters
                     </button>
@@ -110,7 +110,7 @@ export default function ProductListing() {
                         id="sort"
                         value={sort}
                         onChange={(e) => setSort(e.target.value)}
-                        className="text-sm border border-forest/15 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-leaf/20 focus:border-leaf"
+                        className="text-sm border border-forest/15 rounded-lg px-3 py-2.5 bg-white min-w-0 focus:outline-none focus:ring-2 focus:ring-leaf/20 focus:border-leaf"
                     >
                         <option value="newest">Newest</option>
                         <option value="price-low">Price: Low to High</option>
@@ -121,7 +121,7 @@ export default function ProductListing() {
             </div>
 
             <div className="flex gap-8">
-                <aside className="hidden lg:flex lg:flex-col gap-5 w-56 shrink-0">
+                <aside className="hidden lg:flex lg:flex-col gap-5 w-56 shrink-0 lg:sticky lg:top-40 lg:self-start lg:max-h-[calc(100dvh-11rem)] lg:overflow-y-auto">
                     <div>
                         <h3 className="text-sm font-semibold text-forest mb-3">Category</h3>
                         <div className="flex flex-col gap-1">

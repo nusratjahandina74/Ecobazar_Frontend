@@ -19,7 +19,7 @@ export default function App() {
                     <CatalogProvider>
                         <CartProvider>
                             <WishlistProvider>
-                                <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><LeafLoader size={72} label="Loading" /></div>}>
+                                <Suspense fallback={<div className="min-h-dvh flex items-center justify-center"><LeafLoader size={72} label="Loading" /></div>}>
                                     <RouterProvider router={router} />
                                 </Suspense>
                             </WishlistProvider>

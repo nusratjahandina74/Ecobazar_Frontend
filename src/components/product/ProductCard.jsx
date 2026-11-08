@@ -81,10 +81,10 @@ export default function ProductCard({ product }) {
                 <WishlistButton product={product} />
             </div>
 
-            <div className="p-4">
-                <p className="text-xs text-leaf font-medium uppercase tracking-wide">{product.category}</p>
+            <div className="p-3 sm:p-4">
+                <p className="text-xs text-leaf font-medium uppercase tracking-wide truncate">{product.category}</p>
                 <Link to={`/products/${product._id}`}>
-                    <h3 className="text-sm font-semibold text-forest mt-1 line-clamp-2 transition-colors">
+                    <h3 className="text-sm font-semibold text-forest mt-1 line-clamp-2 transition-colors [overflow-wrap:anywhere]">
                         {product.title}
                     </h3>
                 </Link>
@@ -94,8 +94,8 @@ export default function ProductCard({ product }) {
                     {!outOfStock && !product.variants?.length && product.stock <= 5 && <span className="text-xs font-semibold text-amber-700">Only {product.stock} left</span>}
                 </div>
 
-                <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                <div className="flex items-center justify-between gap-2 mt-2">
+                    <div className="flex items-center gap-x-1.5 flex-wrap min-w-0">
                         <span className="font-display text-lg font-semibold text-forest">{formatBDT(product.salePrice)}</span>
                         {product.hasDiscount && (
                             <span className="text-xs text-slate/60 line-through">{formatBDT(product.price)}</span>
@@ -104,7 +104,7 @@ export default function ProductCard({ product }) {
                     <button
                         disabled={outOfStock || pending}
                         onClick={() => (product.variants?.length ? navigate(`/products/${product._id}`) : add(product, 1))}
-                        className="w-9 h-9 rounded-full bg-leaf text-white flex items-center justify-center active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                        className="w-9 h-9 shrink-0 rounded-full bg-leaf text-white flex items-center justify-center active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                         aria-label={`Add ${product.title} to cart`}
                     >
                         <ShoppingCart size={15} />
