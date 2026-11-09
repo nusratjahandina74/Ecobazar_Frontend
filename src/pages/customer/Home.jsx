@@ -74,10 +74,10 @@ export default function Home() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
                         <div className="max-w-xl min-w-0">
                             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-semibold text-white leading-tight [overflow-wrap:anywhere]">
-                                {settings.store?.tagline || "Everything you need, delivered to your door."}
+                                {settings.store?.tagline || "Fresh & Eco-Friendly, Delivered to Your Door."}
                             </h1>
                             <p className="text-white/80 text-base mt-4 max-w-md">
-                                Shop {settings.store?.name || "our store"} online with cash on delivery or secure online payment, delivered across Bangladesh.
+                                Shop {settings.store?.name || "our store"} authentic products online with reliable cash on delivery or secure payments. Fast and safe delivery across Bangladesh.
                             </p>
                             <Link
                                 to="/products"

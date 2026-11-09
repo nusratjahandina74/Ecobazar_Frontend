@@ -13,10 +13,10 @@ export default function AuthLayout({ title, subtitle, children }) {
 
                 <div className="relative z-10 max-w-sm">
                     <p className="font-display text-3xl leading-snug">
-                        Shop green. Live better. Everything you need in one place.
+                        Your Journey to Sustainable Living Starts Here.
                     </p>
                     <p className="text-white/70 text-sm mt-4">
-                        Eco-friendly products delivered across Bangladesh.
+                        Explore the finest eco-friendly and organic essentials, delivered safely across Bangladesh.
                     </p>
                 </div>
 
